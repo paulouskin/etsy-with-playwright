@@ -23,7 +23,7 @@ test.describe("Successful search ", () => {
         expect((await page.title()).toLowerCase()).toContain(validQuery)
     })
 
-    test.only("should show a list with results", async ({ page }) => {
+    test("should show a list with results", async ({ page }) => {
         await mainPage.searchFor(validQuery)
         await mainPage.searchResultsListIsVisible()
     })
