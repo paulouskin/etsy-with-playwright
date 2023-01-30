@@ -10,6 +10,7 @@ test.beforeEach( async ({ page }) => {
     mainPage = new EtsyMainPage(page)
     await page.goto(host)
     await mainPage.acceptDefaultPrivacyPolicySettings()
+    await mainPage.privacyPolicyModalDissapear()
 })
 
 test.afterEach(async ({ page }) => {
@@ -17,9 +18,20 @@ test.afterEach(async ({ page }) => {
 })
 
 test.describe("Successful search ", () => {
-    test("should show a list with results", async ({ page }) => {
+    test("should have query in the page title", async ({ page }) => {
         await mainPage.searchFor(validQuery)
-        // Implement me
+        expect((await page.title()).toLowerCase()).toContain(validQuery)
+    })
+
+    test.only("should show a list with results", async ({ page }) => {
+        await mainPage.searchFor(validQuery)
+        await mainPage.searchResultsListIsVisible()
+    })
+})
+
+test.describe("Search with invalid query", () => {
+    test("should have error results message", async ({ page }) => {
+       // TODO: Implement me
     })
 })
 

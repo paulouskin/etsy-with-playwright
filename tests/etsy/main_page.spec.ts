@@ -22,13 +22,12 @@ test.describe('On the main page', () => {
     })
 
     test('default privacy policy should be acceptable', async ({ page }) => {
-        const acceptPolicyButton = page.locator(acceptPolicyButtonSelector)
-        mainPage.acceptDefaultPrivacyPolicySettings()
-        await expect(acceptPolicyButton).toBeHidden()
+        await mainPage.acceptDefaultPrivacyPolicySettings()
+        await mainPage.privacyPolicyModalDissapear()
     })
 
     test('privacy policy settings should be configurable', async ({ page }) => {
-        mainPage.updatePrivacyPolicySettings()
+        await mainPage.updatePrivacyPolicySettings()
         const privacySettingsModalHeading = page.getByRole('heading').getByText(privacyPolicySettingText)
         await expect(privacySettingsModalHeading).toBeVisible()
     })
