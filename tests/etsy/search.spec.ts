@@ -9,8 +9,10 @@ let mainPage:EtsyMainPage;
 test.beforeEach( async ({ page }) => {
     mainPage = new EtsyMainPage(page)
     await page.goto(host)
-    await mainPage.acceptDefaultPrivacyPolicySettings()
-    await mainPage.privacyPolicyModalDissapear()
+    if (!!process.env.CI) {
+        await mainPage.acceptDefaultPrivacyPolicySettings()
+        await mainPage.privacyPolicyModalDissapear()
+    }
 })
 
 test.afterEach(async ({ page }) => {
