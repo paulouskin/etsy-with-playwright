@@ -1,18 +1,26 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { SearchField } from "../components/SearchField";
 
 export class EtsyMainPage {
+    readonly host = "https://www.etsy.com"
     readonly acceptPolicyButtonSelector = "//button[@data-gdpr-single-choice-accept='true']"
-    readonly searchFieldSelector = "//input[@id='global-enhancements-search-query']"
-    readonly searchResultItemsTitleSelector = "//h3[contains(@class,'v2-listing-card__title')]"
     readonly updateSettingsButtonText = 'Update settings'
-    readonly searchField: Locator
     readonly acceptPolicyButton:Locator;
     readonly page:Page;
+    readonly searchFieldComponent:SearchField
 
     constructor(page: Page) {
         this.page = page;
-        this.searchField = this.page.locator(this.searchFieldSelector)
         this.acceptPolicyButton = this.page.locator(this.acceptPolicyButtonSelector)
+        this.searchFieldComponent = new SearchField(page)
+    }
+
+    async visit() {
+        await this.page.goto(this.host);
+        if (!process.env.CI) {
+            await this.acceptDefaultPrivacyPolicySettings()
+            await this.privacyPolicyModalDissapear()
+        }
     }
 
     async acceptDefaultPrivacyPolicySettings() {
@@ -29,14 +37,6 @@ export class EtsyMainPage {
    }
 
     async searchFor(query: string) {
-        await this.searchField.clear()
-        await this.searchField.fill(query)
-        await this.searchField.press("Enter")
-        await this.page.waitForLoadState("networkidle")
-    }
-
-    async searchResultsListIsVisible() {
-        const resultListItemsTitle:Locator = this.page.locator(this.searchResultItemsTitleSelector)
-        expect(await resultListItemsTitle.count()).toBeGreaterThan(0)
+        await this.searchFieldComponent.searchFor(query)
     }
 }

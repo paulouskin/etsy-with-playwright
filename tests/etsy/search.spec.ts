@@ -1,18 +1,20 @@
 import { test, expect, Page} from '@playwright/test'
+import { ErrorSearchResultPage } from './pages/ErrorSearchResultPage';
 import { EtsyMainPage } from './pages/EtsyMainPage';
+import { ValidSearchResultPage } from './pages/ValidSearchResultPage';
 
 const host = "https://etsy.com"
 const validQuery = "leather bag"
 const invalidQuery = "fjsiyfdsd768dfsjdjfksd867?>><>"
-let mainPage:EtsyMainPage;
+let mainPage:EtsyMainPage
+let searchResultPage:ValidSearchResultPage
+let errorSearchResultPage:ErrorSearchResultPage
 
 test.beforeEach( async ({ page }) => {
     mainPage = new EtsyMainPage(page)
-    await page.goto(host)
-    if (!process.env.CI) {
-        await mainPage.acceptDefaultPrivacyPolicySettings()
-        await mainPage.privacyPolicyModalDissapear()
-    }
+    searchResultPage = new ValidSearchResultPage(page)
+    errorSearchResultPage = new ErrorSearchResultPage(page)
+    await mainPage.visit()
 })
 
 test.afterEach(async ({ page }) => {
@@ -27,13 +29,14 @@ test.describe("Successful search ", () => {
 
     test("should show a list with results", async ({ page }) => {
         await mainPage.searchFor(validQuery)
-        await mainPage.searchResultsListIsVisible()
+        await searchResultPage.searchResultsListIsVisible()
     })
 })
 
 test.describe("Search with invalid query", () => {
-    test("should have error results message", async ({ page }) => {
-       // TODO: Implement me
+    test("should result to error result page", async ({ page }) => {
+       await mainPage.searchFor(invalidQuery)
+       await errorSearchResultPage.isVisibleForQuery(invalidQuery)
     })
 })
 
