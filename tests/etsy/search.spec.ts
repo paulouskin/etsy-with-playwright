@@ -2,10 +2,11 @@ import { test, expect, Page} from '@playwright/test'
 import { ErrorSearchResultPage } from './pages/ErrorSearchResultPage';
 import { EtsyMainPage } from './pages/EtsyMainPage';
 import { ValidSearchResultPage } from './pages/ValidSearchResultPage';
+import { generateRandomString } from './utils/RandomUtil';
 
 const host = "https://etsy.com"
 const validQuery = "leather bag"
-const invalidQuery = "fjsiyfdsd768dfsjdjfksd867?>><>"
+const invalidQuery = generateRandomString()
 let mainPage:EtsyMainPage
 let searchResultPage:ValidSearchResultPage
 let errorSearchResultPage:ErrorSearchResultPage
@@ -34,7 +35,8 @@ test.describe("Successful search ", () => {
 })
 
 test.describe("Search with invalid query", () => {
-    test("should result to error result page", async ({ page }) => {
+    test.only("should result to error result page", async ({ page }) => {
+       console.log("Query for invalid search : '%s'", invalidQuery)
        await mainPage.searchFor(invalidQuery)
        await errorSearchResultPage.isVisibleForQuery(invalidQuery)
     })
