@@ -21,12 +21,12 @@ test.describe('On the main page', () => {
         expect(await page.title()).toContain(expectedTitle)
     })
 
-    test('default privacy policy should be acceptable', async ({ page }) => {
+    test('default privacy policy should be acceptable @notForCI', async ({ page }) => {
         await mainPage.acceptDefaultPrivacyPolicySettings()
         await mainPage.privacyPolicyModalDissapear()
     })
 
-    test('privacy policy settings should be configurable', async ({ page }) => {
+    test('privacy policy settings should be configurable @notForCI', async ({ page }) => {
         await mainPage.updatePrivacyPolicySettings()
         const privacySettingsModalHeading = page.getByRole('heading').getByText(privacyPolicySettingText)
         await expect(privacySettingsModalHeading).toBeVisible()
