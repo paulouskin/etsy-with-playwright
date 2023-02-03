@@ -17,7 +17,7 @@ test.describe("Filtering search results", () => {
         await searchResultPage.searchResultsListIsVisible()
     })
 
-    test.only("should show only free to ship item for special offers 'FREE shipping'", async ({ page }) => {
+    test("should show only free to ship item for special offers 'FREE shipping'", async ({ page }) => {
         await searchResultPage.filterBySpecialOffers(filterOption)
         expect(searchResultPage.containsFreeShippingItemsOnly()).toBeTruthy()
     })
