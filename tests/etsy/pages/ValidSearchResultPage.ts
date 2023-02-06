@@ -7,6 +7,7 @@ export class ValidSearchResultPage {
     readonly searchResultItemsTitleSelector = "//h3[contains(@class,'v2-listing-card__title')]"
     readonly filterTabExpandButtonSelector = "//button[@id='search-filter-button']"
     readonly freeShippingBadgeSelector = "//span[contains(@class,'wt-badge--sale-01')]"
+    readonly filterBadgeSelector = "//div[@data-active-filters]/ul/li";
 
     readonly specialOffersSectionHeader = "Special offers"
 
@@ -35,11 +36,14 @@ export class ValidSearchResultPage {
         await this.resultFilterOptionsPanel.filterBy(criteria)
     }
 
-    async containsFreeShippingItemsOnly() {
-        const allItemsCount = await this.page.locator(this.searchResultItemsTitleSelector).count()
-        console.log("Items in search result list: %d", allItemsCount)
-        const markedItems = await this.page.locator(this.freeShippingBadgeSelector).count()
-        await expect(this.page.locator(this.freeShippingBadgeSelector)).toHaveCount(allItemsCount)
+    async containsFilteredResults(filterOption:string) {
+        await this.page.waitForSelector(this.filterBadgeSelector)
+        const getAppliedFilters = await this.page.locator(this.filterBadgeSelector)
+            .allTextContents()
+        const isFilterPresent = getAppliedFilters
+            .map(f => f.trim().toLowerCase())
+            .filter(f => f.includes(filterOption.toLowerCase())).length > 0
+        expect(isFilterPresent).toBeTruthy()
     }
 
 }
