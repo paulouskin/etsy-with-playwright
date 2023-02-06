@@ -5,7 +5,8 @@ import { ValidSearchResultPage } from "./pages/ValidSearchResultPage"
 let mainPage:EtsyMainPage
 let searchResultPage:ValidSearchResultPage
 const searchQuery = "leather bag"
-const filterOption = "FREE shipping"
+const filterOption = ["FREE shipping"]
+const filterOptions = ["FREE shipping", "Brown"]
 
 test.describe("Filtering search results", () => {
 
@@ -17,9 +18,15 @@ test.describe("Filtering search results", () => {
         await searchResultPage.searchResultsListIsVisible()
     })
 
-    test("should show only free to ship item for special offers 'FREE shipping'", async ({ page }) => {
-        await searchResultPage.filterBySpecialOffers(filterOption)
-        await searchResultPage.containsFilteredResults([filterOption])
+    test("should show only free to ship item for special offers 'FREE shipping' filter", async ({ page }) => {
+        
+        await searchResultPage.filterBy(filterOption)
+        await searchResultPage.containsFilteredResults(filterOption)
+    })
+
+    test("should show only brown free to ship item for 'FREE shipping' and 'Brown' filters", async ({ page }) => {
+        await searchResultPage.filterBy(filterOptions)
+        await searchResultPage.containsFilteredResults(filterOptions)
     })
 
     test.afterEach( async ({ page }) => {

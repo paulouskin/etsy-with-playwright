@@ -31,9 +31,12 @@ export class ValidSearchResultPage {
         await this.resultFilterOptionsPanel.isExpanded();
     }
 
-    async filterBySpecialOffers(criteria:string) {
+    async filterBy(criterias:string[]) {
         await this.expandFilterPanel()
-        await this.resultFilterOptionsPanel.filterBy(criteria)
+        for (const criteria of criterias) {
+            await this.resultFilterOptionsPanel.filterBy(criteria)
+        }
+        await this.resultFilterOptionsPanel.applyFilters() 
     }
 
     async containsFilteredResults(expectedFilters:string[]) {
