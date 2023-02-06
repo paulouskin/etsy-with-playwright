@@ -36,14 +36,17 @@ export class ValidSearchResultPage {
         await this.resultFilterOptionsPanel.filterBy(criteria)
     }
 
-    async containsFilteredResults(filterOption:string) {
+    async containsFilteredResults(expectedFilters:string[]) {
+        const expectedFiltersLC = expectedFilters.map(f => f.toLowerCase())
+        console.log("Expected search result filters: " + expectedFiltersLC)
         await this.page.waitForSelector(this.filterBadgeSelector)
         const getAppliedFilters = await this.page.locator(this.filterBadgeSelector)
             .allTextContents()
-        const isFilterPresent = getAppliedFilters
-            .map(f => f.trim().toLowerCase())
-            .filter(f => f.includes(filterOption.toLowerCase())).length > 0
-        expect(isFilterPresent).toBeTruthy()
+        const actualFilters = getAppliedFilters.map(f => f.trim().toLowerCase());
+        console.log("Applied search result filters: " + actualFilters)
+        const isFiltersPresent = expectedFiltersLC
+            .filter(x => actualFilters.includes(x)).length == expectedFilters.length    
+        expect(isFiltersPresent).toBeTruthy()
     }
 
 }

@@ -19,7 +19,7 @@ test.describe("Filtering search results", () => {
 
     test("should show only free to ship item for special offers 'FREE shipping'", async ({ page }) => {
         await searchResultPage.filterBySpecialOffers(filterOption)
-        await searchResultPage.containsFilteredResults(filterOption)
+        await searchResultPage.containsFilteredResults([filterOption])
     })
 
     test.afterEach( async ({ page }) => {
