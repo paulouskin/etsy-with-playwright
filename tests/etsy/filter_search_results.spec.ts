@@ -1,9 +1,7 @@
-import { test, expect } from "@playwright/test"
-import { EtsyMainPage } from "./pages/EtsyMainPage"
-import { ValidSearchResultPage } from "./pages/ValidSearchResultPage"
+import { test } from "@playwright/test"
+import { ShopperActor } from "./actors/ShopperActor"
 
-let mainPage:EtsyMainPage
-let searchResultPage:ValidSearchResultPage
+let alexTheShopper:ShopperActor
 const searchQuery = "leather bag"
 const filterOption = ["FREE shipping"]
 const filterOptions = ["FREE shipping", "Brown"]
@@ -11,25 +9,22 @@ const filterOptions = ["FREE shipping", "Brown"]
 test.describe("Filtering search results", () => {
 
     test.beforeEach( async ({ page }) => {
-        mainPage = new EtsyMainPage(page);
-        searchResultPage = new ValidSearchResultPage(page);
-        await mainPage.visit()
-        await mainPage.searchFor(searchQuery)
-        await searchResultPage.searchResultsListIsVisible()
+        alexTheShopper = new ShopperActor(page)
+        await alexTheShopper.startsWithShopping()
+        await alexTheShopper.searchFor(searchQuery)
     })
 
     test("should show only free to ship item for special offers 'FREE shipping' filter", async ({ page }) => {
-        
-        await searchResultPage.filterBy(filterOption)
-        await searchResultPage.containsFilteredResults(filterOption)
+        await alexTheShopper.filtersSearchResultsBy(filterOption)
+        await alexTheShopper.verifyFilteredResultListFor(filterOption)
     })
 
     test("should show only brown free to ship item for 'FREE shipping' and 'Brown' filters", async ({ page }) => {
-        await searchResultPage.filterBy(filterOptions)
-        await searchResultPage.containsFilteredResults(filterOptions)
+        await alexTheShopper.filtersSearchResultsBy(filterOptions)
+        await alexTheShopper.verifyFilteredResultListFor(filterOptions)
     })
 
     test.afterEach( async ({ page }) => {
-        await page.close()
-    })
+        await alexTheShopper.finishWithShopping()
+    }) 
 })
