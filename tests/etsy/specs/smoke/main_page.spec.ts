@@ -2,8 +2,6 @@ import {test, expect} from '@playwright/test'
 import { EtsyMainPage } from '../../pages/EtsyMainPage'
 
 const host = 'https://www.etsy.com'
-const acceptPolicyButtonSelector = "//button[@data-gdpr-single-choice-accept='true']"
-const privacyPolicySettingText = 'Privacy Settings'
 let mainPage:EtsyMainPage;
 
 test.beforeEach( async ({ page }) => {
@@ -23,12 +21,11 @@ test.describe('On the main page', () => {
 
     test('default privacy policy should be acceptable @notForCI', async ({ page }) => {
         await mainPage.acceptDefaultPrivacyPolicySettings()
-        await mainPage.privacyPolicyModalDissapear()
+        await mainPage.assertPrivacyPolicyModalDisappear()
     })
 
     test('privacy policy settings should be configurable @notForCI', async ({ page }) => {
         await mainPage.updatePrivacyPolicySettings()
-        const privacySettingsModalHeading = page.getByRole('heading').getByText(privacyPolicySettingText)
-        await expect(privacySettingsModalHeading).toBeVisible()
+        await mainPage.assertUpdatePrivacyPolicySettingsModalIsVisible()
     })
 })

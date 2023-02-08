@@ -5,6 +5,7 @@ export class EtsyMainPage {
     readonly host = "https://www.etsy.com"
     readonly acceptPolicyButtonSelector = "//button[@data-gdpr-single-choice-accept='true']"
     readonly updateSettingsButtonText = 'Update settings'
+    readonly privacyPolicySettingText = 'Privacy Settings'
     readonly acceptPolicyButton:Locator;
     readonly page:Page;
     readonly searchFieldComponent:SearchField
@@ -20,7 +21,7 @@ export class EtsyMainPage {
         await this.page.goto(this.host);
         if (!process.env.CI) {
             await this.acceptDefaultPrivacyPolicySettings()
-            await this.privacyPolicyModalDissapear()
+            await this.assertPrivacyPolicyModalDisappear()
         }
     }
 
@@ -35,12 +36,19 @@ export class EtsyMainPage {
         await updateSettingsButton.click()
     }
 
-   async privacyPolicyModalDissapear() {
+   async assertPrivacyPolicyModalDisappear() {
+        console.log("Verify privacy policy modal disappear")
         await expect(this.acceptPolicyButton).toBeHidden()
    }
 
     async searchFor(query: string) {
         console.log("Start searching for '%s'", query)
         await this.searchFieldComponent.searchFor(query)
+    }
+
+    async assertUpdatePrivacyPolicySettingsModalIsVisible() {
+        console.log("Verify update privacy policy settings modal visibility")
+        const privacySettingsModalHeading = this.page.getByRole('heading').getByText(this.privacyPolicySettingText)
+        await expect(privacySettingsModalHeading).toBeVisible()
     }
 }

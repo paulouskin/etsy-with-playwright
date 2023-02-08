@@ -42,7 +42,7 @@ export class ValidSearchResultPage {
         await this.resultFilterOptionsPanel.applyFilters() 
     }
 
-    async containsFilteredResults(expectedFilters:FilterOption[]) {
+    async assertPageContainsResultsFilteredBy(expectedFilters:FilterOption[]) {
         console.log("Verify filter(s) applied to search result")
         const expectedFiltersLC = expectedFilters.map(f => f.option.toLowerCase())
         console.log("Expected search result filters: " + expectedFiltersLC)

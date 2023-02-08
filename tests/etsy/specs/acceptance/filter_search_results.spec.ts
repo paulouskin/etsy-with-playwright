@@ -22,12 +22,12 @@ test.describe("Filtering search results", () => {
 
     test("should show only free to ship item for special offers 'FREE shipping' filter", async ({ page }) => {
         await actor.filtersSearchResultsBy(filterOption)
-        await actor.verifyFilteredResultListFor(filterOption)
+        await actor.assertResultListContainsItemsFilteredBy(filterOption)
     })
 
     test("should show only brown free to ship item for 'FREE shipping' and 'Brown' filters", async ({ page }) => {
         await actor.filtersSearchResultsBy(filterOptions)
-        await actor.verifyFilteredResultListFor(filterOptions)
+        await actor.assertResultListContainsItemsFilteredBy(filterOptions)
     })
 
     test.afterEach( async ({ page }) => {

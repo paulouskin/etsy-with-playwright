@@ -9,7 +9,7 @@ export class ErrorSearchResultPage {
         this.page = page
     }
 
-    async isVisibleForQuery(query:string) {
+    async assertPageVisibleForQuery(query:string) {
         console.log("Verify invalid search result page is visible")
         const errorMessageHeader = this.page.getByText(this.errorMessageHeaderText + query)
         await expect(errorMessageHeader).toBeVisible()

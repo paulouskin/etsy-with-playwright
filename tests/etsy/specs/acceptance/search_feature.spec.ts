@@ -38,7 +38,7 @@ test.describe("Search with invalid query", () => {
     test("should result to error result page", async ({ page }) => {
        console.log("Query for invalid search : '%s'", invalidQuery)
        await mainPage.searchFor(invalidQuery)
-       await errorSearchResultPage.isVisibleForQuery(invalidQuery)
+       await errorSearchResultPage.assertPageVisibleForQuery(invalidQuery)
     })
 })
 

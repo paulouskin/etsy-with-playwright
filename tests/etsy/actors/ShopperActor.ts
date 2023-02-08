@@ -33,8 +33,8 @@ export class ShopperActor {
         await this.searchResultPage.filterBy(filterOptions)
     }
 
-    async verifyFilteredResultListFor(filterOptions:FilterOption[]) {
-        await this.searchResultPage.containsFilteredResults(filterOptions)
+    async assertResultListContainsItemsFilteredBy(filterOptions:FilterOption[]) {
+        await this.searchResultPage.assertPageContainsResultsFilteredBy(filterOptions)
     }
 
     async finishWithShopping() {
