@@ -16,6 +16,7 @@ export class EtsyMainPage {
     }
 
     async visit() {
+        console.log("Visiting '%s'", this.host)
         await this.page.goto(this.host);
         if (!process.env.CI) {
             await this.acceptDefaultPrivacyPolicySettings()
@@ -24,10 +25,12 @@ export class EtsyMainPage {
     }
 
     async acceptDefaultPrivacyPolicySettings() {
+        console.log("Accepting default settings for privacy policy")
         await this.acceptPolicyButton.click()
     }
 
     async updatePrivacyPolicySettings() {
+        console.log("Updating privacy policy settings")
         const updateSettingsButton = this.page.getByText(this.updateSettingsButtonText)
         await updateSettingsButton.click()
     }
@@ -37,6 +40,7 @@ export class EtsyMainPage {
    }
 
     async searchFor(query: string) {
+        console.log("Start searching for '%s'", query)
         await this.searchFieldComponent.searchFor(query)
     }
 }

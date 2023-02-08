@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test";
+import { FilterOption } from "../model/FilterOption";
 import { EtsyMainPage } from "../pages/EtsyMainPage";
 import { ValidSearchResultPage } from "../pages/ValidSearchResultPage";
 
@@ -26,12 +27,13 @@ export class ShopperActor {
         await this.searchResultPage.searchResultsListIsVisible()
     }
 
-    async filtersSearchResultsBy(filterOptions:string[]) {
-        console.log("%s filters search results by folowwing criterias: %s", this.name, filterOptions)
+    async filtersSearchResultsBy(filterOptions:FilterOption[]) {
+        console.log("%s filters search results by folowwing criterias:", this.name)
+        filterOptions.forEach(o => console.log(">>>> '%s'", o.toString()))
         await this.searchResultPage.filterBy(filterOptions)
     }
 
-    async verifyFilteredResultListFor(filterOptions:string[]) {
+    async verifyFilteredResultListFor(filterOptions:FilterOption[]) {
         await this.searchResultPage.containsFilteredResults(filterOptions)
     }
 

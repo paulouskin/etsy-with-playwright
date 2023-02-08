@@ -1,10 +1,16 @@
 import { test } from "@playwright/test"
-import { ShopperActor } from "./actors/ShopperActor"
+import { ShopperActor } from "../../actors/ShopperActor"
+import { FilterOption } from "../../model/FilterOption"
 
 let actor:ShopperActor
 const searchQuery = "leather bag"
-const filterOption = ["FREE shipping"]
-const filterOptions = ["FREE shipping", "Brown"]
+const filterOption = [
+    new FilterOption("Special offers", "FREE shipping")
+]
+const filterOptions = [
+    new FilterOption("Special offers", "FREE shipping"), 
+    new FilterOption("Color", "Brown")
+]
 
 test.describe("Filtering search results", () => {
 

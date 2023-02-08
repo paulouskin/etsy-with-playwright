@@ -1,4 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
+import { FilterOption } from "../model/FilterOption";
 
 export class SearchResultFilterPanel {
 
@@ -16,13 +17,20 @@ export class SearchResultFilterPanel {
     }
 
     async isExpanded() {
+        console.log("Verify search result filter panel have been expanded")
         await this.page.waitForSelector(this.mainFiltersDivSelector)
         await expect(this.shipToDropdown).toBeVisible()
     }
 
-    async filterBy(criteria:string) {
-        console.log("Filtering search results by '%s'", criteria)
-        await this.filterForm.getByText(criteria).click()
+    async filterBy(criteria:FilterOption) {
+        console.log("Filtering search results by '%s'", criteria.toString())
+        switch (criteria.category.toLowerCase()){
+            case "special offers":
+            case "color": 
+                await this.filterForm.getByText(criteria.option).click()
+                break
+            default: throw Error("Wrong search result filter option")
+        }
     }
 
     async applyFilters() {

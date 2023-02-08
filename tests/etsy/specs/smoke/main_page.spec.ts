@@ -1,5 +1,5 @@
 import {test, expect} from '@playwright/test'
-import { EtsyMainPage } from './pages/EtsyMainPage'
+import { EtsyMainPage } from '../../pages/EtsyMainPage'
 
 const host = 'https://www.etsy.com'
 const acceptPolicyButtonSelector = "//button[@data-gdpr-single-choice-accept='true']"

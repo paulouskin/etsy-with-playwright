@@ -1,8 +1,8 @@
 import { test, expect, Page} from '@playwright/test'
-import { ErrorSearchResultPage } from './pages/ErrorSearchResultPage';
-import { EtsyMainPage } from './pages/EtsyMainPage';
-import { ValidSearchResultPage } from './pages/ValidSearchResultPage';
-import { generateRandomString } from './utils/RandomUtil';
+import { ErrorSearchResultPage } from '../../pages/ErrorSearchResultPage';
+import { EtsyMainPage } from '../../pages/EtsyMainPage';
+import { ValidSearchResultPage } from '../../pages/ValidSearchResultPage';
+import { generateRandomString } from '../../utils/RandomUtil';
 
 const host = "https://etsy.com"
 const validQuery = "leather bag"

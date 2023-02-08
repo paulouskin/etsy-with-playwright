@@ -1,5 +1,6 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { SearchResultFilterPanel } from "../components/SearchResultFilterPanel";
+import { FilterOption } from "../model/FilterOption";
 
 export class ValidSearchResultPage {
 
@@ -22,16 +23,18 @@ export class ValidSearchResultPage {
     }
 
     async searchResultsListIsVisible() {
+        console.log("Verify search result list is visible")
         const resultListItemsTitle:Locator = this.page.locator(this.searchResultItemsTitleSelector)
         expect(await resultListItemsTitle.count()).toBeGreaterThan(0)
     }
 
     private async expandFilterPanel() {
+        console.log("Expand search result filter panel")
         await this.expandFilterPanelButton.click();
         await this.resultFilterOptionsPanel.isExpanded();
     }
 
-    async filterBy(criterias:string[]) {
+    async filterBy(criterias:FilterOption[]) {
         await this.expandFilterPanel()
         for (const criteria of criterias) {
             await this.resultFilterOptionsPanel.filterBy(criteria)
@@ -39,8 +42,9 @@ export class ValidSearchResultPage {
         await this.resultFilterOptionsPanel.applyFilters() 
     }
 
-    async containsFilteredResults(expectedFilters:string[]) {
-        const expectedFiltersLC = expectedFilters.map(f => f.toLowerCase())
+    async containsFilteredResults(expectedFilters:FilterOption[]) {
+        console.log("Verify filter(s) applied to search result")
+        const expectedFiltersLC = expectedFilters.map(f => f.option.toLowerCase())
         console.log("Expected search result filters: " + expectedFiltersLC)
         await this.waitForFilteredResults()
         const getAppliedFiltersText = await this.page.locator(this.filterBadgeSelector)
